@@ -1,0 +1,23 @@
+version: '3.8'
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    ports:
+      - "8080:8080"
+    command: ["./backend"]
+  vector-engine:
+    build:
+      context: .
+      dockerfile: vector-engine/Dockerfile
+    ports:
+      - "9000:9000"
+    command: ["./vector-engine"]
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    command: ["npm", "run", "preview", "--", "--host", "0.0.0.0"]
