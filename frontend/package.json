@@ -9,10 +9,12 @@
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^2.0.0",
-    "svelte-preprocess": "^4.10.0",
+    "@tsconfig/svelte": "^5.0.4",
+    "svelte-preprocess": "^5.1.4",
+    "typescript": "^5.9.2",
     "vite": "^4.5.14"
   },
   "dependencies": {
-    "svelte": "^4.0.0"
+    "svelte": "^3.59.2"
   }
 }
