@@ -1,0 +1,42 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "alice",
+      "email": "alice@example.com",
+      "name": "Alice Pro",
+      "avatar_url": "https://cdn.example.com/avatars/alice.png",
+      "roles": ["customer"],
+      "settings": {
+        "currency": "USD",
+        "locale": "en-US"
+      },
+      "preferences": {
+        "preferred_categories": ["dresses", "sneakers"],
+        "price_range": { "min": 20, "max": 200 },
+        "brand_affinity": { "Nike": 0.85, "Adidas": 0.6 },
+        "embedding_dim": 4,
+        "embedding": [0.12, 0.33, -0.05, 0.87]
+      },
+      "favorites": [101, 205, 333],
+      "recent_views": [205, 101, 77],
+      "cart": [
+        { "product_id": 205, "qty": 1 }
+      ],
+      "addresses": [
+        {
+          "id": "addr_1",
+          "label": "home",
+          "country": "US",
+          "line1": "123 Market St",
+          "city": "San Francisco",
+          "state": "CA",
+          "zip": "94103"
+        }
+      ],
+      "created_at": "2025-08-06T16:00:00Z",
+      "updated_at": "2025-08-06T16:00:00Z",
+      "version": 1
+    }
+  ]
+}
