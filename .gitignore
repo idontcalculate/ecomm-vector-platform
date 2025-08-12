@@ -1,21 +1,4 @@
-# Node
-node_modules/
-dist/
-.vite/
-
-# Rust
 target/
-
-# OS files
+node_modules/
+frontend/dist/
 .DS_Store
-
-# Docker
-*.log
-*.pid
-
-# IDE
-.vscode/
-.idea/
-
-# Misc
-*.env

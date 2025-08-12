@@ -9,21 +9,13 @@ async fn health() -> impl Responder {
 }
 
 #[derive(Serialize, Deserialize)]
-struct SearchReq {
-    vector: Vec<f32>
-}
-
-#[derive(Serialize, Deserialize)]
-struct SearchRes {
-    id: usize,
-    score: f32
-}
+struct SearchReq { vector: Vec<f32> }
 
 #[post("/search")]
 async fn search(req: web::Json<SearchReq>) -> HttpResponse {
     let client = Client::default();
     let response = client
-        .post("http://vector-engine:9000/search")
+        .post("http://vector-engine:9000/search") // or http://localhost:9000 when running locally
         .send_json(&*req)
         .await;
 
@@ -45,11 +37,7 @@ async fn main() -> std::io::Result<()> {
             .allow_any_origin()
             .allow_any_method()
             .allow_any_header();
-
-        App::new()
-            .wrap(cors)
-            .service(health)
-            .service(search)
+        App::new().wrap(cors).service(health).service(search)
     })
     .bind(("0.0.0.0", 8080))?
     .run()

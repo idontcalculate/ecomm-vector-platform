@@ -1,41 +1,39 @@
-use faiss::{index_factory, Index, MetricType};
+use hnsw_rs::prelude::*;
 
+/// Wrapper around an HNSW index for vector search.
 pub struct VectorEngine {
-    index: faiss::IndexImpl,
-    dimension: usize,
+    index: Hnsw<f32, DistCosine>,
+    dim: usize,
 }
 
 impl VectorEngine {
-    /// Create a new vector search engine with specified dimension
-    pub fn new(dimension: usize) -> Self {
-        let index = index_factory(dimension as u32, "Flat", MetricType::L2)
-            .expect("Failed to initialize FAISS index");
+    /// Create a new HNSW index with the given dimensionality.
+    pub fn new(dim: usize) -> Self {
+        // Parameters: max_nb_conn, ef_construction, max_elements, distance metric
+        let index = Hnsw::new(16, dim, 200, 16, DistCosine {});
 
-        Self {
-            index,
-            dimension,
+        Self { index, dim }
+    }
+
+    /// Add a vector to the index with an ID.
+    pub fn add_vector(&mut self, id: usize, vector: Vec<f32>) {
+        if vector.len() == self.dim {
+            self.index.insert((&vector, id));
         }
     }
 
-    /// Add vectors to the FAISS index
-    pub fn add_vectors(&mut self, vectors: &[Vec<f32>]) {
-        let flattened: Vec<f32> = vectors.iter().flatten().cloned().collect();
-        self.index
-            .add(&flattened)
-            .expect("Failed to add vectors to FAISS index");
-    }
+    /// Search for the top_k nearest neighbors.
+    pub fn search(&self, query: Vec<f32>, top_k: usize) -> Vec<(usize, f32)> {
+        if query.len() != self.dim {
+            return vec![];
+        }
 
-    /// Search for nearest neighbors
-    pub fn search(&self, query: &[f32], k: usize) -> Vec<(usize, f32)> {
-        let results = self
-            .index
-            .search(query, k)
-            .expect("Failed to search FAISS index");
+        let ef_search = 16;
+        let results = self.index.search(&query, top_k, ef_search);
 
-        results.labels
-            .iter()
-            .zip(results.distances.iter())
-            .map(|(&id, &score)| (id as usize, score))
+        results
+            .into_iter()
+            .map(|n| (n.d_id, n.distance))
             .collect()
     }
 }

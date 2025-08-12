@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   vector-engine:
@@ -7,20 +7,16 @@ services:
       dockerfile: vector-engine/Dockerfile
     ports:
       - "9000:9000"
+    restart: unless-stopped
 
   backend:
     build:
       context: .
       dockerfile: backend/Dockerfile
+    environment:
+      VECTOR_ENGINE_URL: http://vector-engine:9000
     ports:
       - "8080:8080"
     depends_on:
       - vector-engine
-
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    ports:
-      - "3000:3000"
-    command: ["npm", "run", "preview", "--", "--host", "0.0.0.0"]
+    restart: unless-stopped
