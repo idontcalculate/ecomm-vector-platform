@@ -1,0 +1,4 @@
+body { font-family: system-ui, Arial, sans-serif; margin: 2rem; }
+input { padding: .5rem; width: 24rem; }
+button { padding: .5rem .8rem; margin-left: .5rem; }
+pre { background: #111; color: #0f0; padding: 1rem; }
